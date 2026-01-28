@@ -4,13 +4,13 @@ import { FiGrid, FiList, FiChevronDown } from "react-icons/fi";
 
 // Import products from ProductDetails
 const allProducts = [
-  { id: 1, name: "Women Floral Printed Blouse Top", price: 47, oldPrice: 87, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Off-White-Printed-Top-5-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Off-White-Printed-Top-5-300x350.jpg", rating: 4.5, reviews: 32, category: "Women", discount: "46% OFF" },
-  { id: 2, name: "Women Blue Stretchable Jeans", price: 70, oldPrice: 78, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Blue-Stretchable-Jeans-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Blue-Stretchable-Jeans-300x350.jpg", rating: 4.3, reviews: 15, category: "Women", discount: "10% OFF" },
-  { id: 3, name: "Yoga", price: 199, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Khaki-Solid-Top-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Khaki-Solid-Top-300x350.jpg", rating: 4.8, reviews: 67, category: "Women" },
-  { id: 4, name: "Women Black Solid Maxi Skirt", price: 68, oldPrice: 75, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Black-Solid-Maxi-Skirt-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Black-Solid-Maxi-Skirt-300x350.jpg", rating: 4.6, reviews: 31, category: "Women" },
-  { id: 5, name: "Women Solid Maroon Shirt", price: 49, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Solid-Maroon-Shirt-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Solid-Maroon-Shirt-300x350.jpg", rating: 4.4, reviews: 28, category: "Women" },
-  { id: 6, name: "Women Loose Blue Shirt", price: 51, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Loose-Blue-Shirt-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Loose-Blue-Shirt-300x350.jpg", rating: 4.7, reviews: 44, category: "Women" },
-  { id: 7, name: "Women Pink Solid Regular Trousers", price: 69, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Pink-Solid-Regular-Trousers-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Pink-Solid-Regular-Trousers-300x350.jpg", rating: 4.6, reviews: 39, category: "Women" },
+  { id: 1, name: "Women Floral Printed Blouse Top", price: 47, oldPrice: 87, image: "https://tse2.mm.bing.net/th/id/OIP.TNWGnoUDEMUAjzsMEo1BuAHaJ3?pid=Api&P=0&h=220", hoverImage: "https://tse2.mm.bing.net/th/id/OIP.TNWGnoUDEMUAjzsMEo1BuAHaJ3?pid=Api&P=0&h=220.jpg", rating: 4.5, reviews: 32, category: "Women", discount: "46% OFF" },
+  { id: 2, name: "Women Blue Stretchable Jeans", price: 70, oldPrice: 78, image: "https://tse4.mm.bing.net/th/id/OIP.iS1I1nfGEm70srZy8MkY_wHaKq?pid=Api&P=0&h=220", hoverImage: "https://tse4.mm.bing.net/th/id/OIP.iS1I1nfGEm70srZy8MkY_wHaKq?pid=Api&P=0&h=220", rating: 4.3, reviews: 15, category: "Women", discount: "10% OFF" },
+  { id: 3, name: "Yoga", price: 199, image: "https://tse3.mm.bing.net/th/id/OIP.8Y3falts9Ihyu0MyoNy3NAHaE8?pid=Api&P=0&h=220", hoverImage: "https://tse3.mm.bing.net/th/id/OIP.8Y3falts9Ihyu0MyoNy3NAHaE8?pid=Api&P=0&h=220", rating: 4.8, reviews: 67, category: "Women" },
+  { id: 4, name: "Women Black Solid Maxi Skirt", price: 68, oldPrice: 75, image: "https://tse2.mm.bing.net/th/id/OIP.Gq4Du6f9vCAwrcZ7LuGlnQHaJ2?pid=Api&P=0&h=220", hoverImage: "https://tse2.mm.bing.net/th/id/OIP.Gq4Du6f9vCAwrcZ7LuGlnQHaJ2?pid=Api&P=0&h=220", rating: 4.6, reviews: 31, category: "Women" },
+  { id: 5, name: "Women Solid Maroon Shirt", price: 49, image: "https://tse3.mm.bing.net/th/id/OIP.m2aqq5637uWFHK2osY214gHaJ4?pid=Api&P=0&h=220", hoverImage: "https://tse3.mm.bing.net/th/id/OIP.m2aqq5637uWFHK2osY214gHaJ4?pid=Api&P=0&h=220", rating: 4.4, reviews: 28, category: "Women" },
+  { id: 6, name: "Women Loose Blue Shirt", price: 51, image: "https://tse2.mm.bing.net/th/id/OIP.SLYgTxlTjAfq67YB8OsASwHaLH?pid=Api&P=0&h=220", hoverImage: "https://tse2.mm.bing.net/th/id/OIP.SLYgTxlTjAfq67YB8OsASwHaLH?pid=Api&P=0&h=220", rating: 4.7, reviews: 44, category: "Women" },
+  { id: 7, name: "Women Pink Solid Regular Trousers", price: 69, image: "https://tse4.mm.bing.net/th/id/OIP.nBXWL_mlrDx-TEkWuLqgoAHaJ4?pid=Api&P=0&h=220", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Pink-Solid-Regular-Trousers-300x350.jpg", rating: 4.6, reviews: 39, category: "Women" },
   { id: 8, name: "Women Navy Blue Solid Parka Jacket", price: 160, oldPrice: 190, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Navy-Blue-Solid-Parka-Jacket-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Navy-Blue-Solid-Parka-Jacket-300x350.jpg", rating: 4.4, reviews: 21, category: "Women" },
   { id: 9, name: "Women Blue Skinny Fit Jeans", price: 95, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Blue-Skinny-Fit-Jeans-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Blue-Skinny-Fit-Jeans-300x350.jpg", rating: 4.2, reviews: 18, category: "Women" },
   { id: 10, name: "Women Slim Fit Jeans", price: 135, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0dXs5s1I4aYG61YwAZEP6wWWkgbxYq9bDQw&s", hoverImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0dXs5s1I4aYG61YwAZEP6wWWkgbxYq9bDQw&s", rating: 4.6, reviews: 82, category: "Women" },
@@ -34,9 +34,11 @@ const CategoryPage = () => {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
-  const filteredProducts = allProducts.filter(
-    (product) => product.category.toLowerCase() === category?.toLowerCase() && product.price <= priceRange
-  );
+  const filteredProducts = category?.toLowerCase() === "all" 
+    ? allProducts.filter(product => product.price <= priceRange)
+    : allProducts.filter(
+        (product) => product.category.toLowerCase() === category?.toLowerCase() && product.price <= priceRange
+      );
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
@@ -75,12 +77,16 @@ const CategoryPage = () => {
           <span className="mx-2">/</span>
           <span className="cursor-pointer hover:text-primary">Shop</span>
           <span className="mx-2">/</span>
-          <span className="text-gray-900 font-medium">{category}</span>
+          <span className="text-gray-900 font-medium">
+            {category?.toLowerCase() === "all" ? "All Products" : category}
+          </span>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 capitalize">{category}</h1>
+        <h1 className="text-3xl font-bold mb-8 capitalize">
+          {category?.toLowerCase() === "all" ? "All Products" : category}
+        </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Left Sidebar */}

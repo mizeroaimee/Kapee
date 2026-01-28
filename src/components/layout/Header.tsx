@@ -4,6 +4,7 @@ import CartModal from "./CartModal";
 import LoginModal from "../auth/LoginModal";
 import SignupModal from "../auth/SignupModal";
 import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -11,6 +12,7 @@ const Header = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { getCartCount, getTotalPrice } = useCart();
 
   return (
     <div className="bg-primary text-white">
@@ -112,10 +114,10 @@ const Header = () => {
               <div className="relative">
                 <FiShoppingCart size={18} className="sm:w-5 sm:h-5" />
                 <span className="absolute -top-1 -right-1 bg-white text-primary text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
-                  0
+                  {getCartCount()}
                 </span>
               </div>
-              <div className="hidden sm:block font-semibold text-xs sm:text-sm">$0.00</div>
+              <div className="hidden sm:block font-semibold text-xs sm:text-sm">${getTotalPrice().toFixed(2)}</div>
             </div>
 
             {/* Mobile Search Toggle */}

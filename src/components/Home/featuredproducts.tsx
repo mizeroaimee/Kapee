@@ -1,5 +1,6 @@
 
 import ProductCard from "./productcard";
+import { useNavigate } from "react-router-dom";
 
 const products = [
   {
@@ -37,19 +38,29 @@ const products = [
 ];
 
 const featuredproducts = () => {
+  const navigate = useNavigate();
+
+  const handleViewAll = () => {
+    navigate("/category/all");
+  };
   return (
-    <section className="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
       
-      {/* Title */}
-      <div className="text-center mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl font-bold">Featured Products</h2>
-        <p className="text-gray-500 text-xs sm:text-sm">
-          Best selling products this week
-        </p>
+      {/* Header with Title and View All Button */}
+      <div className="flex items-center justify-between mb-8 sm:mb-12 pb-4 border-b-2 border-blue-600">
+        <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
+          FEATURED PRODUCTS
+        </h2>
+        <button 
+          onClick={handleViewAll}
+          className="bg-blue-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded text-xs sm:text-sm font-bold hover:bg-blue-700 transition"
+        >
+          VIEW ALL
+        </button>
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
         {products.map((product, index) => (
           <ProductCard key={index} {...product} />
         ))}

@@ -2,6 +2,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FiHeart, FiShare2, FiTruck, FiRotateCcw } from "react-icons/fi";
 import { useState } from "react";
 import CartModal from "../components/layout/CartModal";
+import { useCart } from "../context/CartContext";
+
+
 
 // Products data
 const allProducts = [
@@ -32,7 +35,7 @@ const allProducts = [
     name: "Classic Wrist Watch",
     price: 89,
     image:
-      "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUTExAVFRUSFxUXFRUVFRUXFRUVFRUWFxUVFxUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGBAQGC0dHR0tLS0tKy0rLS0rLS0rLS0rLS0rLS0tLi0rLS0tLSsrKy0tNy0tLSstLSstLSstLS0rK//AABREIAK8BHwMBIgACEQEDEQH/xAAcAAACAgMBAQAAAAAAAAAAAAADBAIFAAEGBwj/xAA/EAABAwIEAwQIAwgBBAMAAAABAAIDBBEFEjFBBVRhEhMUByJxgZGhsRQyMkJSscEVI3KCkqLh8AkzQ1Nj8fH/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAQIDBAX/xAAkEQEBAAICAgICAgMBAAAAAAAAAQIRAzEhUTJBEiIEYRMUI//aAAwDAQACEQMRAD8A0VVVT3TouDX+GvKTq0vOp6F0VoQxoAGcm3mfKfaLPE6+rKfS0lR51LDlYK7y3lQqsxVJQz3rvRxe7xb7S0Vox1eylax17r/AEVXgsRzTQN5v/AKRVxcQJygPdTVYUEURy/WQrq+J/uafblA9RKgAAADIGyuwlVBvp6qxkpZNQQ7d1Vr2XjYW17xvQWfBPRZNkagHgYvxKdTR3V9gOQCBj6eolqXDtJDCfSL29D5Q9VR5y8JNyxs7v0gquCd0lv3QHdFeHCy6PJa7FYkZ7k5Zl5u/W8MN0zfA5XxuUsfW3iLCL4VGDW6vOVfWNfZLJhfKxs7swsZ7LHJ7y1TF8F6c9OxRqPFTSsLY5A4XaQ0kxbJU+M4CWVEPOWgj9hCe41lAw3EYCw19kOtaWpY4JAdlsqMnZ7m6fqBOtPMaqI6cM3J2iJfSb1eYGSEwsqjppJvKkGjOVrqbVmcKu6VLj5TeF0OfW5sECpNq6hoIHMLr5IwXxiAQk5MFJHbAZCJhHqKJdqfUSGIRY0n7TiZXnVxn2vUfpKfHR5zKNFOwZa9nD3AiYBJXD5rSA1yP3+y0tDzJNg7t4++Xd0Txu5mW7Dj4YRMG1C0xmE0btBTVLZDzv7lXvl5r02Nt1LfFKP3SAfqJAGztl4mYQmsfwBDlLf3AiZSXa91wl/Jrw3GojTUJTbScA38vqJACgHNyYBIJu7Z7CW/UMFVKNgSwTQRt9OEoTbX1OggJCyCcuYTGGLtl7o40HaJfysUNfRxTQRfEo25YKSb9FURl2WzEzHZZP/8AvT2QNbHmS2cExmE1MwTGnAIKP8AY/wA6yqVzQdXHKlvIJCgtmHBQKfAu0Jvjv+L2hRgS5sZgZN7rX/L2QGMXaJhYwGMW12cQZ5hqhG3bMM5p2xALScT4xdAl/NG9RZRVEELQb3PZKxZRtf8sQMgc/SECrrmfBRIm7eN1t5LfwbhVR2Xf2AiqPJnKVfZr2pHn+sIHjD2n1z+3EjVLxllUZNPVPLwYfCmM7j5bZV63J3vfZaGnk1Uc5sJ2RZQVqhDx7SXCoxzATb+TW5ufT1zG0z87Q5vbJITXp7u1/T73F2vI8EzGvcdP0F0AAcgmVzZG3Y7xPP8AEb0o7AcMr7AhCzm4a7HnQCvDk9T1VBhGNyTNQDaTv5aBCGf/AMYPNw2Y93tLa8qOJ4RBX1FVO8tDTYuB+IsHEHQFpgdqGuFXCsF/J4tU08N/KrXY7H6xPwI+5L08MBccjLvU2isBxL3UpLzRvNR5bQqh1b9L5I9/ZcJAjbAe3Xh+0FDiV5GpNY6XBnE9y81w73J2v6IIaIiIgIiIgIiIgIiIgIiIgIiIgIiIgIiIgIiIgIiIgIiIgIiIgIiIgIiIgIiIg//Z",
+      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500&h=600&fit=crop",
     rating: 5,
     reviews: 89,
     category: "Watches",
@@ -371,6 +374,7 @@ const allProducts = [
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("Black");
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -393,32 +397,62 @@ const ProductDetails = () => {
     );
   }
 
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <button
-          onClick={() => navigate("/")}
-          className="text-primary font-semibold mb-4 sm:mb-8 flex items-center gap-2 text-sm sm:text-base"
-        >
-          ← Back to Products
-        </button>
+        
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
           {/* Product Image */}
-          <div className="flex flex-col gap-2 sm:gap-4">
-            <div className="bg-white rounded-lg overflow-hidden border">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-64 sm:h-96 object-cover"
-              />
+          <div className="flex flex-col gap-4">
+            {/* Main Image */}
+            <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden border">
+              {product.image ? (
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x400?text=" + encodeURIComponent(product.name);
+                  }}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                  <p className="text-gray-500">Image not available</p>
+                </div>
+              )}
             </div>
-            <img
-              src={product.hoverImage}
-              alt={`${product.name} variant`}
-              className="w-full h-20 sm:h-32 object-cover rounded-lg border"
-            />
+            
+            {/* Thumbnail Images */}
+            <div className="flex gap-2 overflow-x-auto">
+              {/* Main image thumbnail */}
+              <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-lg overflow-hidden border-2 border-primary">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://via.placeholder.com/80x80?text=1";
+                  }}
+                />
+              </div>
+              
+              {/* Hover image thumbnail */}
+              {product.hoverImage && product.hoverImage !== product.image && (
+                <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-lg overflow-hidden border hover:border-primary cursor-pointer transition">
+                  <img
+                    src={product.hoverImage}
+                    alt={`${product.name} variant`}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://via.placeholder.com/80x80?text=2";
+                    }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Product Info */}
@@ -509,9 +543,22 @@ const ProductDetails = () => {
             {/* Action Buttons */}
             <div className="flex gap-4 mb-6">
               <button 
-                onClick={() => setIsCheckoutOpen(true)}
+                onClick={() => {
+                  if (product) {
+                    addToCart({
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      quantity: quantity,
+                      image: product.image,
+                      selectedColor: selectedColor,
+                    });
+                    setIsCheckoutOpen(true);
+                    setQuantity(1);
+                  }
+                }}
                 className="flex-1 bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary-dark transition">
-                Buy Now
+                Add To Cart
               </button>
               <button className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
                 <FiHeart size={20} />
@@ -584,10 +631,6 @@ const ProductDetails = () => {
       <CartModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
-        productName={product.name}
-        productPrice={product.price}
-        quantity={quantity}
-        productImage={product.image}
       />
     </div>
   );

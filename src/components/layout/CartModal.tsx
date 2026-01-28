@@ -1,64 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { FiX, FiTrash2 } from "react-icons/fi";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 interface CartModalProps {
   isOpen: boolean;
   onClose: () => void;
-  productName?: string;
-  productPrice?: number;
-  quantity?: number;
-  selectedColor?: string;
-  productImage?: string;
 }
 
 const CartModal: React.FC<CartModalProps> = ({
   isOpen,
   onClose,
-  productName = "",
-  productPrice = 0,
-  quantity: initialQuantity = 1,
-  productImage = "",
 }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    if (productName) {
-      return [
-        {
-          id: 1,
-          name: productName,
-          price: productPrice,
-          quantity: initialQuantity,
-          image: productImage || "https://via.placeholder.com/80",
-        },
-      ];
-    }
-    return [];
-  });
-
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity > 0) {
-      setCartItems((prev) =>
-        prev.map((item) =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    }
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  const navigate = useNavigate();
+  const { cartItems, removeFromCart, updateQuantity, getTotalPrice } = useCart();
 
   if (!isOpen) return null;
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = getTotalPrice();
   const freeShippingThreshold = 200;
   const shippingProgress = (subtotal / freeShippingThreshold) * 100;
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
@@ -114,7 +73,7 @@ const CartModal: React.FC<CartModalProps> = ({
                         {item.name}
                       </h3>
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeFromCart(item.id)}
                         className="text-orange-500 hover:text-orange-600 flex-shrink-0"
                       >
                         <FiTrash2 size={16} />
@@ -182,7 +141,13 @@ const CartModal: React.FC<CartModalProps> = ({
               <button className="w-full bg-blue-600 text-white py-3 rounded font-semibold hover:bg-blue-700 transition text-sm">
                 VIEW CART
               </button>
-              <button className="w-full bg-orange-500 text-white py-3 rounded font-semibold hover:bg-orange-600 transition text-sm">
+              <button 
+                onClick={() => {
+                  onClose();
+                  navigate("/checkout");
+                }}
+                className="w-full bg-orange-500 text-white py-3 rounded font-semibold hover:bg-orange-600 transition text-sm"
+              >
                 CHECKOUT
               </button>
             </div>

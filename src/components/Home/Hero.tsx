@@ -1,5 +1,6 @@
 import PromoCard from "./PromoCard";
 import { useEffect, useState } from "react";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const heroImages = [
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTnVw-fsNtgGYLNmiS7dTZAuP6X2SoeHePJg&s",
@@ -9,28 +10,52 @@ const heroImages = [
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
+  const [autoplay, setAutoplay] = useState(true);
 
-  // Auto slide
+  // Auto slide with interval
   useEffect(() => {
+    if (!autoplay) return;
+    
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % heroImages.length);
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [autoplay]);
+
+  // Manual navigation
+  const goToPrev = () => {
+    setAutoplay(false);
+    setCurrent((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  };
+
+  const goToNext = () => {
+    setAutoplay(false);
+    setCurrent((prev) => (prev + 1) % heroImages.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setAutoplay(false);
+    setCurrent(index);
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-2 sm:px-4 py-3 sm:py-8 grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-6">
 
       {/* MAIN HERO SLIDER */}
-      <div className="lg:col-span-2 relative h-[200px] sm:h-[300px] lg:h-[420px] rounded overflow-hidden">
+      <div 
+        className="lg:col-span-2 relative h-[200px] sm:h-[300px] lg:h-[420px] rounded-lg overflow-hidden group"
+        onMouseEnter={() => setAutoplay(false)}
+        onMouseLeave={() => setAutoplay(true)}
+      >
+        {/* Images with Carousel */}
         {heroImages.map((img, index) => (
           <div
             key={index}
-            className={`absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out
+            className={`absolute inset-0 transition-all duration-1000 ease-in-out
               ${index === current ? "opacity-100 scale-100" : "opacity-0 scale-105"}
             `}
-            style={{ backgroundImage: `url(${img})` }}
+            style={{ backgroundImage: `url(${img})`, backgroundSize: "cover", backgroundPosition: "center" }}
           />
         ))}
 
@@ -38,25 +63,54 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/40 z-10" />
 
         {/* Content */}
-        <div className="relative z-20 h-full flex flex-col justify-center p-3 sm:p-8 lg:p-10 text-white animate-fadeIn">
-          <p className="text-xs sm:text-lg mb-1 sm:mb-2 animate-slideUp">Festive Feast</p>
+        <div className="relative z-20 h-full flex flex-col justify-center p-3 sm:p-8 lg:p-10 text-white">
+          <p className="text-xs sm:text-lg mb-1 sm:mb-2 font-semibold">New Collections 2019</p>
 
-          <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-4 animate-slideUp delay-100">
-            Fashion Accessories
+          <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-4">
+            Men's Fashion
           </h1>
 
-          <p className="text-base sm:text-xl lg:text-2xl mb-3 sm:mb-6 animate-slideUp delay-200">
-            Minimum 50% Off
+          <p className="text-xs sm:text-sm lg:text-base mb-3 sm:mb-6 max-w-md">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor!
           </p>
 
-          <button className="w-fit px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm border border-white hover:bg-white hover:text-black transition animate-slideUp delay-300">
+          <button className="w-fit px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm border-2 border-white text-white font-bold hover:bg-white hover:text-black transition">
             SHOP NOW
           </button>
         </div>
 
-        {/* Price Badge */}
-        <div className="absolute bottom-3 sm:bottom-6 left-3 sm:left-6 z-20 bg-green-500 text-white rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center font-bold text-xs sm:text-lg animate-bounce">
-          $39
+        {/* Left Arrow */}
+        <button
+          onClick={goToPrev}
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 bg-white/70 hover:bg-white p-2 sm:p-3 rounded-full transition opacity-0 group-hover:opacity-100"
+          aria-label="Previous slide"
+        >
+          <FiChevronLeft size={20} className="text-black" />
+        </button>
+
+        {/* Right Arrow */}
+        <button
+          onClick={goToNext}
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 bg-white/70 hover:bg-white p-2 sm:p-3 rounded-full transition opacity-0 group-hover:opacity-100"
+          aria-label="Next slide"
+        >
+          <FiChevronRight size={20} className="text-black" />
+        </button>
+
+        {/* Dots Navigation */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`transition-all rounded-full ${
+                index === current
+                  ? "bg-white w-8 h-2"
+                  : "bg-white/50 hover:bg-white/70 w-2 h-2"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
 

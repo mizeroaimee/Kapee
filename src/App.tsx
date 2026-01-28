@@ -7,22 +7,29 @@ import Footer from "./components/layout/Footer";
 import Home from "./pages/Home.tsx";
 import ProductDetails from "./pages/ProductDetails.tsx";
 import CategoryPage from "./pages/CategoryPage.tsx";
+import Checkout from "./pages/Checkout.tsx";
+import About from "./pages/About.tsx";
 import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <TopBar />
-        <Header />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/category/:category" element={<CategoryPage />} />
-        </Routes>
-        <Footer />
-      </Router>
+      <CartProvider>
+        <Router>
+          <TopBar />
+          <Header />
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/category/:category" element={<CategoryPage />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+          <Footer />
+        </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }
