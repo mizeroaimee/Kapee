@@ -1,11 +1,13 @@
 import { FiMenu, FiChevronDown, FiX } from "react-icons/fi";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";//  removed unused useNavigate
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
-  const navigate = useNavigate();
+  
+
+  
 
   const categories = [
     "Women",

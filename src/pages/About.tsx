@@ -1,4 +1,4 @@
-import React from "react";
+
 import { FiTruck, FiShield, FiHeart, FiAward, FiUsers, FiGlobe } from "react-icons/fi";
 
 const About = () => {
