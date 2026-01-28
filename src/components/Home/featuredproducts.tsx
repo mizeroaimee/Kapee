@@ -38,18 +38,18 @@ const products = [
 
 const featuredproducts = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-12">
+    <section className="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
       
       {/* Title */}
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold">Featured Products</h2>
-        <p className="text-gray-500 text-sm">
+      <div className="text-center mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-bold">Featured Products</h2>
+        <p className="text-gray-500 text-xs sm:text-sm">
           Best selling products this week
         </p>
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4">
         {products.map((product, index) => (
           <ProductCard key={index} {...product} />
         ))}

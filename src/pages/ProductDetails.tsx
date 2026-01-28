@@ -373,7 +373,7 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("Black");
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   const product = allProducts.find((p) => p.id === Number(id));
 
@@ -399,35 +399,35 @@ const ProductDetails = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <button
           onClick={() => navigate("/")}
-          className="text-primary font-semibold mb-8 flex items-center gap-2"
+          className="text-primary font-semibold mb-4 sm:mb-8 flex items-center gap-2 text-sm sm:text-base"
         >
           ← Back to Products
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
           {/* Product Image */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2 sm:gap-4">
             <div className="bg-white rounded-lg overflow-hidden border">
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-96 object-cover"
+                className="w-full h-64 sm:h-96 object-cover"
               />
             </div>
             <img
               src={product.hoverImage}
               alt={`${product.name} variant`}
-              className="w-full h-32 object-cover rounded-lg border"
+              className="w-full h-20 sm:h-32 object-cover rounded-lg border"
             />
           </div>
 
           {/* Product Info */}
-          <div className="bg-white rounded-lg p-8">
+          <div className="bg-white rounded-lg p-4 sm:p-8">
             {/* Title */}
-            <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3">{product.name}</h1>
 
             {/* Rating */}
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
                   <span
@@ -509,9 +509,9 @@ const ProductDetails = () => {
             {/* Action Buttons */}
             <div className="flex gap-4 mb-6">
               <button 
-                onClick={() => setIsCartModalOpen(true)}
+                onClick={() => setIsCheckoutOpen(true)}
                 className="flex-1 bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary-dark transition">
-                Add to Cart
+                Buy Now
               </button>
               <button className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
                 <FiHeart size={20} />
@@ -582,12 +582,12 @@ const ProductDetails = () => {
 
       {/* Cart Modal */}
       <CartModal
-        isOpen={isCartModalOpen}
-        onClose={() => setIsCartModalOpen(false)}
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
         productName={product.name}
         productPrice={product.price}
         quantity={quantity}
-        selectedColor={selectedColor}
+        productImage={product.image}
       />
     </div>
   );

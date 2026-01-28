@@ -13,16 +13,16 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8">
           
           {/* Company Info */}
           <div>
-            <h3 className="text-white text-2xl font-bold mb-4">kapee.</h3>
-            <p className="text-sm mb-6">
+            <h3 className="text-white text-lg sm:text-2xl font-bold mb-3 sm:mb-4">kapee.</h3>
+            <p className="text-xs sm:text-sm mb-4 sm:mb-6">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
-            <div className="space-y-3 text-sm">
+            <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
               <div className="flex items-start gap-3">
                 <span className="text-primary mt-1">📍</span>
                 <span>Lorem Ipsum, 2045 Lorem Ipsum</span>
@@ -44,8 +44,8 @@ const Footer = () => {
 
           {/* Information */}
           <div>
-            <h4 className="text-white font-semibold mb-4">INFORMATION</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">INFORMATION</h4>
+            <ul className="space-y-2 text-xs sm:text-sm">
               <li><a href="#" className="hover:text-primary transition">About Us</a></li>
               <li><a href="#" className="hover:text-primary transition">Store Location</a></li>
               <li><a href="#" className="hover:text-primary transition">Contact Us</a></li>
@@ -57,8 +57,8 @@ const Footer = () => {
 
           {/* Our Service */}
           <div>
-            <h4 className="text-white font-semibold mb-4">OUR SERVICE</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">OUR SERVICE</h4>
+            <ul className="space-y-2 text-xs sm:text-sm">
               <li><a href="#" className="hover:text-primary transition">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-primary transition">Terms of Sale</a></li>
               <li><a href="#" className="hover:text-primary transition">Customer Service</a></li>
@@ -70,8 +70,8 @@ const Footer = () => {
 
           {/* My Account */}
           <div>
-            <h4 className="text-white font-semibold mb-4">MY ACCOUNT</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">MY ACCOUNT</h4>
+            <ul className="space-y-2 text-xs sm:text-sm">
               <li><a href="#" className="hover:text-primary transition">My Account</a></li>
               <li><a href="#" className="hover:text-primary transition">My Shop</a></li>
               <li><a href="#" className="hover:text-primary transition">My Cart</a></li>

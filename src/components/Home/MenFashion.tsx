@@ -33,13 +33,13 @@ const MenFashion = () => {
   };
 
   return (
-    <section className="container mx-auto px-4 py-10">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <section className="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         
         {/* Left Category Menu */}
-        <div className="border p-6">
-          <h3 className="text-xl font-semibold mb-4">Men's Fashion</h3>
-          <ul className="space-y-3 text-gray-600">
+        <div className="border p-4 sm:p-6 hidden md:block">
+          <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Men's Fashion</h3>
+          <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-gray-600">
             <li className="hover:text-black cursor-pointer">Wallets</li>
             <li className="hover:text-black cursor-pointer">T-Shirts</li>
             <li className="hover:text-black cursor-pointer">Shirts</li>
@@ -49,17 +49,17 @@ const MenFashion = () => {
         </div>
 
         {/* Banner */}
-        <div className="relative bg-cover bg-center h-[450px] col-span-1 lg:col-span-1"
+        <div className="relative bg-cover bg-center h-[250px] sm:h-[350px] lg:h-[450px] col-span-1 lg:col-span-1"
           style={{ backgroundImage: "url('https://kapee.presslayouts.com/wp-content/uploads/2019/07/Product-box-banner-1-269x360.jpg')" }}>
-          <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-6 text-white">
-            <p className="text-sm uppercase font-semibold">Men's Clothing</p>
-            <h2 className="text-3xl font-bold">UP TO 50% OFF</h2>
+          <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-3 sm:p-6 text-white">
+            <p className="text-xs sm:text-sm uppercase font-semibold">Men's Clothing</p>
+            <h2 className="text-xl sm:text-3xl font-bold">UP TO 50% OFF</h2>
           </div>
         </div>
 
         {/* Products */}
-        <div className="col-span-1 lg:col-span-2 relative">
-          <div className="grid grid-flow-col auto-cols-[230px] gap-6 overflow-x-auto scroll-smooth px-8">
+        <div className="col-span-1 md:col-span-2 lg:col-span-2 relative">
+          <div className="grid grid-flow-col auto-cols-[150px] sm:auto-cols-[200px] lg:auto-cols-[230px] gap-3 sm:gap-6 overflow-x-auto scroll-smooth px-4 sm:px-8">
             {products.map((item, index) => (
               <div
                 key={index}

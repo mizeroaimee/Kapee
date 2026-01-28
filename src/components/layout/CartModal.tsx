@@ -1,203 +1,193 @@
 import React, { useState } from "react";
-import { FiX } from "react-icons/fi";
+import { FiX, FiTrash2 } from "react-icons/fi";
+
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
 
 interface CartModalProps {
   isOpen: boolean;
   onClose: () => void;
-  productName: string;
-  productPrice: number;
-  quantity: number;
-  selectedColor: string;
+  productName?: string;
+  productPrice?: number;
+  quantity?: number;
+  selectedColor?: string;
+  productImage?: string;
 }
 
 const CartModal: React.FC<CartModalProps> = ({
   isOpen,
   onClose,
-  productName,
-  productPrice,
-  quantity,
-  selectedColor,
+  productName = "",
+  productPrice = 0,
+  quantity: initialQuantity = 1,
+  productImage = "",
 }) => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    cardNumber: "",
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    if (productName) {
+      return [
+        {
+          id: 1,
+          name: productName,
+          price: productPrice,
+          quantity: initialQuantity,
+          image: productImage || "https://via.placeholder.com/80",
+        },
+      ];
+    }
+    return [];
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const updateQuantity = (id: number, newQuantity: number) => {
+    if (newQuantity > 0) {
+      setCartItems((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    }
   };
 
-  const handleAddToCart = () => {
-    if (
-      !formData.fullName ||
-      !formData.email ||
-      !formData.address ||
-      !formData.city
-    ) {
-      alert("Please fill all required fields!");
-      return;
-    }
-
-    const cartItem = {
-      productName,
-      productPrice,
-      quantity,
-      selectedColor,
-      ...formData,
-    };
-
-    console.log("Added to cart:", cartItem);
-    alert(`${productName} added to cart successfully!`);
-    setFormData({
-      fullName: "",
-      email: "",
-      address: "",
-      city: "",
-      postalCode: "",
-      cardNumber: "",
-    });
-    onClose();
+  const removeItem = (id: number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   if (!isOpen) return null;
 
-  const totalPrice = productPrice * quantity;
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const freeShippingThreshold = 200;
+  const shippingProgress = (subtotal / freeShippingThreshold) * 100;
+  const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50">
+      {/* Mobile overlay click to close */}
+      <div
+        className="absolute inset-0"
+        onClick={onClose}
+      />
+      
+      {/* Cart Sidebar */}
+      <div className="relative bg-white h-full w-full sm:w-96 shadow-lg flex flex-col">
         {/* Header */}
-        <div className="sticky top-0 flex justify-between items-center p-6 border-b bg-white">
-          <h2 className="text-2xl font-bold">Complete Your Order</h2>
+        <div className="bg-blue-600 text-white p-4 flex items-center justify-between sticky top-0 z-10">
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-black transition"
+            className="text-white hover:text-gray-200"
           >
             <FiX size={24} />
           </button>
+          <h2 className="text-lg font-bold flex-1 text-center">MY CART</h2>
+          <div className="w-6" />
         </div>
 
-        {/* Order Summary */}
-        <div className="p-6 border-b bg-gray-50">
-          <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="font-medium">{productName}</p>
-              <p className="text-sm text-gray-600">
-                Color: <span className="font-medium">{selectedColor}</span>
-              </p>
-              <p className="text-sm text-gray-600">
-                Quantity: <span className="font-medium">{quantity}</span>
-              </p>
+        {/* Cart Items */}
+        <div className="flex-1 overflow-y-auto p-4">
+          {cartItems.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">Your cart is empty</p>
             </div>
-            <div className="text-right">
-              <p className="text-xl font-bold text-orange-500">${totalPrice.toFixed(2)}</p>
-              <p className="text-sm text-gray-600">${productPrice} × {quantity}</p>
+          ) : (
+            <div className="space-y-4">
+              {cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex gap-3 pb-4 border-b"
+                >
+                  {/* Product Image */}
+                  <div className="flex-shrink-0">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded"
+                    />
+                  </div>
+
+                  {/* Product Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-start gap-2">
+                      <h3 className="text-sm font-medium leading-tight break-words flex-1">
+                        {item.name}
+                      </h3>
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="text-orange-500 hover:text-orange-600 flex-shrink-0"
+                      >
+                        <FiTrash2 size={16} />
+                      </button>
+                    </div>
+
+                    {/* Quantity Controls */}
+                    <div className="flex items-center gap-2 mt-2">
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="w-6 h-6 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-100 text-sm"
+                      >
+                        −
+                      </button>
+                      <span className="w-6 text-center text-sm font-medium">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="w-6 h-6 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-100 text-sm"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    {/* Price */}
+                    <p className="text-sm font-semibold text-gray-900 mt-2">
+                      {item.quantity} × ${item.price.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Form */}
-        <div className="p-6 space-y-6">
-          {/* Personal Information */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
-            <div className="space-y-4">
-              <input
-                type="text"
-                name="fullName"
-                placeholder="Full Name *"
-                value={formData.fullName}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address *"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-              />
+        {/* Footer */}
+        {cartItems.length > 0 && (
+          <div className="border-t bg-white sticky bottom-0 p-4 space-y-3">
+            {/* Subtotal */}
+            <div className="flex justify-between items-center">
+              <span className="font-semibold text-gray-700">SUBTOTAL:</span>
+              <span className="text-lg font-bold text-gray-900">
+                ${subtotal.toFixed(2)}
+              </span>
             </div>
-          </div>
 
-          {/* Shipping Address */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Shipping Address</h3>
-            <div className="space-y-4">
-              <input
-                type="text"
-                name="address"
-                placeholder="Street Address *"
-                value={formData.address}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  name="city"
-                  placeholder="City *"
-                  value={formData.city}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-                />
-                <input
-                  type="text"
-                  name="postalCode"
-                  placeholder="Postal Code"
-                  value={formData.postalCode}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-                />
+            {/* Free Shipping Progress */}
+            {remainingForFreeShipping > 0 && (
+              <div className="space-y-2">
+                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                  <div
+                    className="bg-blue-600 h-full transition-all"
+                    style={{ width: `${Math.min(shippingProgress, 100)}%` }}
+                  />
+                </div>
+                <p className="text-xs text-center text-gray-600">
+                  Spend ${remainingForFreeShipping.toFixed(2)} to get free shipping
+                </p>
               </div>
+            )}
+
+            {/* Buttons */}
+            <div className="space-y-2 pt-2">
+              <button className="w-full bg-blue-600 text-white py-3 rounded font-semibold hover:bg-blue-700 transition text-sm">
+                VIEW CART
+              </button>
+              <button className="w-full bg-orange-500 text-white py-3 rounded font-semibold hover:bg-orange-600 transition text-sm">
+                CHECKOUT
+              </button>
             </div>
           </div>
-
-          {/* Payment Information */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Payment Information</h3>
-            <div className="space-y-4">
-              <input
-                type="text"
-                name="cardNumber"
-                placeholder="Card Number (Optional)"
-                value={formData.cardNumber}
-                onChange={handleInputChange}
-                maxLength={16}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
-              />
-              <p className="text-sm text-gray-600">
-                * Required fields. Your payment will be secured.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Footer Buttons */}
-        <div className="sticky bottom-0 flex justify-between items-center p-6 border-t bg-white gap-4">
-          <button
-            onClick={onClose}
-            className="px-6 py-2 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleAddToCart}
-            className="px-8 py-2 bg-orange-500 text-white rounded-lg font-bold hover:bg-orange-600 transition"
-          >
-            Add to Cart ${totalPrice.toFixed(2)}
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

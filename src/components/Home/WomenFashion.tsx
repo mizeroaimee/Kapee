@@ -50,14 +50,14 @@ const WomenFashion = () => {
   };
 
   return (
-    <section className="container mx-auto px-4 py-14">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <section className="max-w-7xl mx-auto px-2 sm:px-4 py-8 sm:py-14">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Left Category Menu */}
-        <div className="border p-6">
-          <h3 className="text-xl font-semibold mb-4 text-pink-500">
+        <div className="border p-4 sm:p-6 hidden md:block">
+          <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-4 text-pink-500">
             Women's Fashion
           </h3>
-          <ul className="space-y-3 text-gray-600">
+          <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-gray-600">
             <li className="hover:text-black cursor-pointer">Trousers & Capris</li>
             <li className="hover:text-black cursor-pointer">Tops</li>
             <li className="hover:text-black cursor-pointer">Shorts & Skirts</li>
@@ -69,20 +69,20 @@ const WomenFashion = () => {
 
         {/* Banner */}
         <div
-          className="relative bg-cover bg-center h-[450px]"
+          className="relative bg-cover bg-center h-[250px] sm:h-[350px] lg:h-[450px]"
           style={{
             backgroundImage:
               "url('https://kapee.presslayouts.com/wp-content/uploads/2019/07/Product-box-banner-4.jpg')",
           }}
         >
-          <div className="absolute inset-0 flex flex-col justify-center p-8">
-            <h2 className="text-4xl font-bold text-gray-800"></h2>
-            <p className="text-xl mt-2"></p>
+          <div className="absolute inset-0 flex flex-col justify-center p-4 sm:p-8">
+            <h2 className="text-2xl sm:text-4xl font-bold text-gray-800"></h2>
+            <p className="text-base sm:text-xl mt-2"></p>
           </div>
         </div>
 
         {/* Products Slider */}
-        <div className="col-span-1 lg:col-span-2 relative">
+        <div className="col-span-1 md:col-span-2 lg:col-span-2 relative">
           {/* Left Arrow */}
           <button
             onClick={() =>
@@ -91,7 +91,7 @@ const WomenFashion = () => {
                 behavior: "smooth",
               })
             }
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-3 z-20 hover:bg-black hover:text-white transition"
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 sm:p-3 z-20 hover:bg-black hover:text-white transition text-xs sm:text-base"
           >
             ‹
           </button>
@@ -104,7 +104,7 @@ const WomenFashion = () => {
                 behavior: "smooth",
               })
             }
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-3 z-20 hover:bg-black hover:text-white transition"
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 sm:p-3 z-20 hover:bg-black hover:text-white transition text-xs sm:text-base"
           >
             ›
           </button>
@@ -112,7 +112,7 @@ const WomenFashion = () => {
           {/* Slider */}
           <div
             id="women-slider"
-            className="grid grid-flow-col auto-cols-[230px] gap-6 overflow-x-auto scroll-smooth scrollbar-hide px-8"
+            className="grid grid-flow-col auto-cols-[150px] sm:auto-cols-[200px] lg:auto-cols-[230px] gap-3 sm:gap-6 overflow-x-auto scroll-smooth scrollbar-hide px-4 sm:px-8"
           >
             {womenProducts.map((item, index) => (
               <div
