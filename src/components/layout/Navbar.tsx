@@ -1,23 +1,15 @@
 import { FiMenu, FiChevronDown, FiX } from "react-icons/fi";
 import { useState } from "react";
-import { Link } from "react-router-dom";//  removed unused useNavigate
+import { Link } from "react-router-dom";
+import { useCategories } from "../../context/CategoryContext";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
+  const { categories } = useCategories();
   
-
-  
-
-  const categories = [
-    "Women",
-    "Men", 
-    "Shoes",
-    "Watches",
-    "Bags & Backpacks",
-    "Jewellery",
-    "Accessories"
-  ];
+  const fallbackCategories = ["Women", "Men", "Shoes", "Watches", "Bags & Backpacks", "Jewellery", "Accessories"];
+  const displayCategories = categories.length > 0 ? categories.map(cat => cat.name) : fallbackCategories;
 
   return (
     <div className="bg-white border-b sticky top-0 z-40">
@@ -36,7 +28,7 @@ const Navbar = () => {
           {/* Department Dropdown */}
           {shopDropdownOpen && (
             <div className="absolute top-full left-0 bg-white border shadow-lg rounded-lg mt-1 py-2 min-w-48">
-              {categories.map((category) => (
+              {displayCategories.map((category) => (
                 <Link
                   key={category}
                   to={`/category/${category}`}
@@ -74,7 +66,7 @@ const Navbar = () => {
               Shop <FiChevronDown size={12} className="hidden lg:block" />
             </div>
             <div className="absolute top-full left-0 bg-white border shadow-lg rounded-lg mt-1 py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-              {categories.map((category) => (
+              {displayCategories.map((category) => (
                 <Link
                   key={category}
                   to={`/category/${category}`}
@@ -147,7 +139,7 @@ const Navbar = () => {
             </Link>
             <div className="space-y-2">
               <div className="font-semibold text-gray-700">Categories:</div>
-              {categories.map((category) => (
+              {displayCategories.map((category) => (
                 <Link
                   key={category}
                   to={`/category/${category}`}

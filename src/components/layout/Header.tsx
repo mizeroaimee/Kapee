@@ -1,10 +1,11 @@
 import { FiUser, FiHeart, FiShoppingCart, FiSearch, FiX, FiLogOut } from "react-icons/fi";
-import { useState } from "react";
 import CartModal from "./CartModal";
 import LoginModal from "../auth/LoginModal";
 import SignupModal from "../auth/SignupModal";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
+import { useState } from "react";
+
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,6 +14,7 @@ const Header = () => {
   const [signupOpen, setSignupOpen] = useState(false);
   const { user, logout } = useAuth();
   const { getCartCount, getTotalPrice } = useCart();
+
 
   return (
     <div className="bg-primary text-white">
@@ -24,27 +26,34 @@ const Header = () => {
           <div className="text-lg sm:text-3xl font-bold flex-shrink-0">
             kapee<span className="text-white">.</span>
           </div>
+        
+ 
+           {/* Search Bar - Hidden on mobile, shown on md+ */}
+<div className="hidden md:flex flex-1 max-w-2xl lg:max-w-3xl bg-white rounded overflow-hidden">
 
-          {/* Search Bar - Hidden on mobile, shown on md+ */}
-          <div className="hidden md:flex flex-1 max-w-2xl lg:max-w-3xl bg-white rounded overflow-hidden">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-gray-700 outline-none text-xs sm:text-sm"
-            />
+  {/* Category Dropdown */}
+  
+          <input
+            type="text"
+            placeholder="Search..."
+            className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-gray-700 outline-none text-xs sm:text-sm"
+          />
 
-            <select className="border-l px-2 sm:px-3 text-gray-600 outline-none text-xs sm:text-sm">
-              <option>All Categories</option>
-              <option>Fashion</option>
-              <option>Electronics</option>
-              <option>Accessories</option>
-            </select>
+          <select className="border-l px-2 sm:px-3 text-gray-600 outline-none text-xs sm:text-sm">
+            <option>All Categories</option>
+            <option>Fashion</option>
+            <option>Electronics</option>
+            <option>Accessories</option>
+          </select>
+  
+  {/* Search Button */}
+  <button className="px-4 sm:px-5 bg-primary text-white flex items-center justify-center">
+    <FiSearch size={18} />
+  </button>
 
-            <button className="px-2 sm:px-5 bg-primary text-white flex items-center justify-center flex-shrink-0">
-              <FiSearch size={16} className="sm:w-5 sm:h-5" />
-            </button>
-          </div>
-
+</div>
+  
+          
           {/* Icons Section */}
           <div className="flex items-center gap-2 sm:gap-6 text-xs sm:text-sm flex-shrink-0">
             {/* Account */}

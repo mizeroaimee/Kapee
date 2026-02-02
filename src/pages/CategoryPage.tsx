@@ -1,28 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiGrid, FiList, FiChevronDown } from "react-icons/fi";
-
-// Import products from ProductDetails
-const allProducts = [
-  { id: 1, name: "Women Floral Printed Blouse Top", price: 47, oldPrice: 87, image: "https://tse2.mm.bing.net/th/id/OIP.TNWGnoUDEMUAjzsMEo1BuAHaJ3?pid=Api&P=0&h=220", hoverImage: "https://tse2.mm.bing.net/th/id/OIP.TNWGnoUDEMUAjzsMEo1BuAHaJ3?pid=Api&P=0&h=220.jpg", rating: 4.5, reviews: 32, category: "Women", discount: "46% OFF" },
-  { id: 2, name: "Women Blue Stretchable Jeans", price: 70, oldPrice: 78, image: "https://tse4.mm.bing.net/th/id/OIP.iS1I1nfGEm70srZy8MkY_wHaKq?pid=Api&P=0&h=220", hoverImage: "https://tse4.mm.bing.net/th/id/OIP.iS1I1nfGEm70srZy8MkY_wHaKq?pid=Api&P=0&h=220", rating: 4.3, reviews: 15, category: "Women", discount: "10% OFF" },
-  { id: 3, name: "Yoga", price: 199, image: "https://tse3.mm.bing.net/th/id/OIP.8Y3falts9Ihyu0MyoNy3NAHaE8?pid=Api&P=0&h=220", hoverImage: "https://tse3.mm.bing.net/th/id/OIP.8Y3falts9Ihyu0MyoNy3NAHaE8?pid=Api&P=0&h=220", rating: 4.8, reviews: 67, category: "Women" },
-  { id: 4, name: "Women Black Solid Maxi Skirt", price: 68, oldPrice: 75, image: "https://tse2.mm.bing.net/th/id/OIP.Gq4Du6f9vCAwrcZ7LuGlnQHaJ2?pid=Api&P=0&h=220", hoverImage: "https://tse2.mm.bing.net/th/id/OIP.Gq4Du6f9vCAwrcZ7LuGlnQHaJ2?pid=Api&P=0&h=220", rating: 4.6, reviews: 31, category: "Women" },
-  { id: 5, name: "Women Solid Maroon Shirt", price: 49, image: "https://tse3.mm.bing.net/th/id/OIP.m2aqq5637uWFHK2osY214gHaJ4?pid=Api&P=0&h=220", hoverImage: "https://tse3.mm.bing.net/th/id/OIP.m2aqq5637uWFHK2osY214gHaJ4?pid=Api&P=0&h=220", rating: 4.4, reviews: 28, category: "Women" },
-  { id: 6, name: "Women Loose Blue Shirt", price: 51, image: "https://tse2.mm.bing.net/th/id/OIP.SLYgTxlTjAfq67YB8OsASwHaLH?pid=Api&P=0&h=220", hoverImage: "https://tse2.mm.bing.net/th/id/OIP.SLYgTxlTjAfq67YB8OsASwHaLH?pid=Api&P=0&h=220", rating: 4.7, reviews: 44, category: "Women" },
-  { id: 7, name: "Women Pink Solid Regular Trousers", price: 69, image: "https://tse4.mm.bing.net/th/id/OIP.nBXWL_mlrDx-TEkWuLqgoAHaJ4?pid=Api&P=0&h=220", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Pink-Solid-Regular-Trousers-300x350.jpg", rating: 4.6, reviews: 39, category: "Women" },
-  { id: 8, name: "Women Navy Blue Solid Parka Jacket", price: 160, oldPrice: 190, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Navy-Blue-Solid-Parka-Jacket-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Navy-Blue-Solid-Parka-Jacket-300x350.jpg", rating: 4.4, reviews: 21, category: "Women" },
-  { id: 9, name: "Women Blue Skinny Fit Jeans", price: 95, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Blue-Skinny-Fit-Jeans-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Women-Blue-Skinny-Fit-Jeans-300x350.jpg", rating: 4.2, reviews: 18, category: "Women" },
-  { id: 10, name: "Women Slim Fit Jeans", price: 135, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0dXs5s1I4aYG61YwAZEP6wWWkgbxYq9bDQw&s", hoverImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0dXs5s1I4aYG61YwAZEP6wWWkgbxYq9bDQw&s", rating: 4.6, reviews: 82, category: "Women" },
-  { id: 11, name: "Men Hooded Navy Blue", price: 90, oldPrice: 110, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Solid-Men-Hooded-Blue-Grey-T-Shirt-2-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Solid-Men-Hooded-Blue-Grey-T-Shirt-2-300x350.jpg", rating: 4.7, reviews: 156, category: "Men" },
-  { id: 12, name: "Men Navy & Red Checked", price: 112, oldPrice: 142, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Men-Navy-Red-Checked-Slim-Fit-Casual-Shirt-2-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/04/Men-Navy-Red-Checked-Slim-Fit-Casual-Shirt-2-300x350.jpg", rating: 4.5, reviews: 98, category: "Men" },
-  { id: 13, name: "Light Blue Solid Low Rise", price: 92, oldPrice: 115, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/06/Light-Blue-Solid-Low-Rise-Skinny-Fit-Jeans-2-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/06/Light-Blue-Solid-Low-Rise-Skinny-Fit-Jeans-2-300x350.jpg", rating: 4.4, reviews: 67, category: "Men" },
-  { id: 14, name: "Premium Leather Shoes", price: 145, oldPrice: 180, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Brown-Leather-Shoes-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Brown-Leather-Shoes-300x350.jpg", rating: 4.8, reviews: 234, category: "Shoes" },
-  { id: 15, name: "Elegant Wrist Watch", price: 199, oldPrice: 250, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Black-Leather-Watch-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Black-Leather-Watch-300x350.jpg", rating: 4.9, reviews: 189, category: "Watches" },
-  { id: 16, name: "Canvas Backpack", price: 89, oldPrice: 120, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Black-Canvas-Backpack-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Black-Canvas-Backpack-300x350.jpg", rating: 4.6, reviews: 142, category: "Bags & Backpacks" },
-  { id: 17, name: "Gold Pendant Necklace", price: 156, oldPrice: 200, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Gold-Necklace-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Gold-Necklace-300x350.jpg", rating: 4.7, reviews: 76, category: "Jewellery" },
-  { id: 18, name: "Sunglasses UV Protection", price: 75, oldPrice: 100, image: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Black-Sunglasses-300x350.jpg", hoverImage: "https://kapee.presslayouts.com/wp-content/uploads/2019/03/Black-Sunglasses-300x350.jpg", rating: 4.5, reviews: 98, category: "Accessories" }
-];
+import { api } from "../services/api";
+import type { Product, Category } from "../services/api";
 
 const CategoryPage = () => {
   const { category } = useParams();
@@ -33,29 +13,38 @@ const CategoryPage = () => {
   const [priceRange, setPriceRange] = useState(500);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredProducts = category?.toLowerCase() === "all" 
-    ? allProducts.filter(product => product.price <= priceRange)
-    : allProducts.filter(
-        (product) => product.category.toLowerCase() === category?.toLowerCase() && product.price <= priceRange
-      );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [productsData, categoriesData] = await Promise.all([
+          api.getProducts(category, {
+            sortBy,
+            priceRange,
+            color: selectedColor || undefined,
+            size: selectedSize || undefined
+          }),
+          api.getCategories()
+        ]);
+        setProducts(productsData);
+        setCategories(categoriesData);
+      } catch (err) {
+        setError('Failed to load data');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case "price-low":
-        return a.price - b.price;
-      case "price-high":
-        return b.price - a.price;
-      case "rating":
-        return b.rating - a.rating;
-      case "newest":
-        return b.id - a.id;
-      default:
-        return 0;
-    }
-  });
+    fetchData();
+  }, [category, sortBy, priceRange, selectedColor, selectedSize]);
 
-  const subCategories: { [key: string]: string[] } = {
+  // Default subcategories if not provided by backend
+  const defaultSubCategories: { [key: string]: string[] } = {
     "Women": ["Dresses", "Jeans", "Tops", "Shirts", "Shorts & Skirts", "Jackets & Coats"],
     "Men": ["T-Shirts", "Shirts", "Jeans", "Jackets & Coats", "Trousers & Pants"],
     "Shoes": ["Casual Shoes", "Formal Shoes", "Sports Shoes", "Boots"],
@@ -64,6 +53,8 @@ const CategoryPage = () => {
     "Jewellery": ["Necklaces", "Rings", "Bracelets", "Earrings"],
     "Accessories": ["Sunglasses", "Scarves", "Belts"]
   };
+  
+  const subCategories = defaultSubCategories[category || ''] || [];
 
   const colors = ["Blue", "Black", "Red", "White", "Green"];
   const sizes = ["S", "M", "L", "XL", "XXL"];
@@ -98,7 +89,7 @@ const CategoryPage = () => {
                   PRODUCT CATEGORIES <FiChevronDown size={18} />
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-600">
-                  {subCategories[category as string]?.map((sub, idx) => (
+                  {subCategories.map((sub, idx) => (
                     <li key={idx} className="hover:text-primary cursor-pointer">
                       {sub} <span className="text-xs">({Math.floor(Math.random() * 20)})</span>
                     </li>
@@ -190,7 +181,7 @@ const CategoryPage = () => {
             <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-sm text-gray-600">
-                  Showing <span className="font-bold">{sortedProducts.length}</span> products
+                  Showing <span className="font-bold">{products.length}</span> products
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -235,12 +226,22 @@ const CategoryPage = () => {
             </div>
 
             {/* Products Grid */}
-            {sortedProducts.length > 0 ? (
+            {loading ? (
+              <div className="text-center py-12 bg-white rounded-lg">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                <p className="mt-4 text-gray-600">Loading products...</p>
+              </div>
+            ) : error ? (
+              <div className="text-center py-12 bg-white rounded-lg">
+                <h2 className="text-2xl font-semibold mb-4 text-red-600">Error</h2>
+                <p className="text-gray-600">{error}</p>
+              </div>
+            ) : products.length > 0 ? (
               <div className={viewType === "grid" ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" : "space-y-4"}>
-                {sortedProducts.slice(0, itemsPerPage).map((product) => (
+                {products.slice(0, itemsPerPage).map((product) => (
                   <div
-                    key={product.id}
-                    onClick={() => navigate(`/product/${product.id}`)}
+                    key={product._id}
+                    onClick={() => navigate(`/product/${product._id}`)}
                     className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition cursor-pointer group"
                   >
                     <div className="relative h-64 overflow-hidden">

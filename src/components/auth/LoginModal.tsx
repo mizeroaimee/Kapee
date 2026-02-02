@@ -23,6 +23,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    
 
     if (!email || !password) {
       setError("Please fill in all fields");
@@ -37,19 +38,22 @@ const LoginModal: React.FC<LoginModalProps> = ({
     } catch (err) {
       setError("Invalid email or password");
     }
+   
   };
 
   if (!isOpen) return null;
+  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex">
-        {/* Close Button */}
+      <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex">
+
+         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-black z-10"
+          className="absolute top-2 right-2 text-gray-500 hover:text-black z-10"
         >
-          <FiX size={24} />
+          <FiX size={22} />
         </button>
 
         {/* Left Side - Blue Section */}
@@ -62,6 +66,8 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
         {/* Right Side - Form */}
         <div className="w-full md:w-2/3 p-6 sm:p-8">
+        
+
           {/* Mobile Header */}
           <div className="md:hidden mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Login</h2>
@@ -122,7 +128,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition disabled:opacity-50 text-sm sm:text-base"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition disabled:opacity-50 text-sm sm:text-base cursor-pointer pointer-events-auto"
             >
               {isLoading ? "LOGGING IN..." : "LOG IN"}
             </button>
