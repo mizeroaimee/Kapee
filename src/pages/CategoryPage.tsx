@@ -23,15 +23,10 @@ const CategoryPage = () => {
       try {
         setLoading(true);
         const [productsData, categoriesData] = await Promise.all([
-          api.getProducts(category, {
-            sortBy,
-            priceRange,
-            color: selectedColor || undefined,
-            size: selectedSize || undefined
-          }),
+          api.getProducts(),
           api.getCategories()
         ]);
-        setProducts(productsData);
+        setProducts(productsData.products);
         setCategories(categoriesData);
       } catch (err) {
         setError('Failed to load data');
@@ -246,18 +241,17 @@ const CategoryPage = () => {
                   >
                     <div className="relative h-64 overflow-hidden">
                       <img
-                        src={product.image}
+                        src={product.image || '/placeholder-image.jpg'}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = '/placeholder-image.svg';
+                        }}
                       />
-                      {product.discount && (
-                        <div className="absolute top-2 left-2 bg-yellow-400 text-white px-3 py-1 text-xs font-bold rounded">
-                          {product.discount}
-                        </div>
-                      )}
-                      {product.oldPrice && !product.discount && (
-                        <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-xs rounded">
-                          Sale
+                      {!product.inStock && (
+                        <div className="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded">
+                          OUT OF STOCK
                         </div>
                       )}
                     </div>
@@ -270,21 +264,19 @@ const CategoryPage = () => {
                           {[...Array(5)].map((_, i) => (
                             <span
                               key={i}
-                              className={`text-sm ${i < Math.floor(product.rating) ? "text-yellow-400" : "text-gray-300"}`}
+                              className={`text-sm ${i < 4 ? "text-yellow-400" : "text-gray-300"}`}
                             >
                               ★
                             </span>
                           ))}
                         </div>
-                        <span className="text-xs text-gray-500">({product.reviews})</span>
+                        <span className="text-xs text-gray-500">(3)</span>
                       </div>
                       <div className="flex items-center gap-2 justify-between">
                         <div className="flex items-center gap-2">
                           <span className="text-lg font-bold text-primary">${product.price}</span>
-                          {product.oldPrice && (
-                            <span className="text-sm text-gray-400 line-through">${product.oldPrice}</span>
-                          )}
                         </div>
+                        <span className="text-xs text-gray-600">{product.quantity} in stock</span>
                       </div>
                     </div>
                   </div>

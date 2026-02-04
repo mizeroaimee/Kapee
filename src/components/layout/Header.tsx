@@ -1,10 +1,11 @@
-import { FiUser, FiHeart, FiShoppingCart, FiSearch, FiX, FiLogOut } from "react-icons/fi";
+import { FiUser, FiHeart, FiShoppingCart, FiSearch, FiX, FiLogOut, FiSettings } from "react-icons/fi";
 import CartModal from "./CartModal";
 import LoginModal from "../auth/LoginModal";
 import SignupModal from "../auth/SignupModal";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 
 const Header = () => {
@@ -12,8 +13,24 @@ const Header = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const { user, logout } = useAuth();
   const { getCartCount, getTotalPrice } = useCart();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
 
   return (
@@ -58,8 +75,11 @@ const Header = () => {
           <div className="flex items-center gap-2 sm:gap-6 text-xs sm:text-sm flex-shrink-0">
             {/* Account */}
             {user ? (
-              <div className="relative group">
-                <div className="hidden sm:flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
+              <div className="relative" ref={dropdownRef}>
+                <div 
+                  className="hidden sm:flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                >
                   <FiUser size={20} />
                   <div className="leading-tight hidden lg:block">
                     <p className="text-xs">Hello,</p>
@@ -68,24 +88,42 @@ const Header = () => {
                 </div>
                 
                 {/* Mobile Account Icon */}
-                <div className="sm:hidden cursor-pointer hover:opacity-80 transition">
+                <div 
+                  className="sm:hidden cursor-pointer hover:opacity-80 transition"
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                >
                   <FiUser size={18} />
                 </div>
 
                 {/* Dropdown Menu */}
-                <div className="absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition z-50">
-                  <div className="p-3 border-b text-xs">
-                    <p className="font-semibold">{user.name}</p>
-                    <p className="text-gray-600">{user.email}</p>
+                {userDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded-lg shadow-lg z-50">
+                    <div className="p-3 border-b text-xs">
+                      <p className="font-semibold">{user.name}</p>
+                      <p className="text-gray-600">{user.email}</p>
+                    </div>
+                    {user.role === 'admin' && (
+                      <Link
+                        to="/admin/dashboard"
+                        className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition text-sm"
+                        onClick={() => setUserDropdownOpen(false)}
+                      >
+                        <FiSettings size={16} />
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => {
+                        logout();
+                        setUserDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition text-sm"
+                    >
+                      <FiLogOut size={16} />
+                      Sign Out
+                    </button>
                   </div>
-                  <button
-                    onClick={logout}
-                    className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition text-sm"
-                  >
-                    <FiLogOut size={16} />
-                    Sign Out
-                  </button>
-                </div>
+                )}
               </div>
             ) : (
               <div

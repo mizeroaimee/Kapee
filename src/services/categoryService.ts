@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/categories";
+const API_URL = "http://localhost:5000/api/categories";
 
 // Get auth token from localStorage
 const getAuthToken = () => {
@@ -18,7 +18,11 @@ export const getCategories = async () => {
   return res.data;
 };
 
-export const createCategory = async (formData: FormData) => {
+export const createCategory = async (data: { name: string; description: string }) => {
+  const formData = new FormData();
+  formData.append('name', data.name);
+  formData.append('description', data.description);
+  
   const res = await axios.post(API_URL, formData, {
     headers: {
       ...createAuthHeaders(),
@@ -28,7 +32,11 @@ export const createCategory = async (formData: FormData) => {
   return res.data;
 };
 
-export const updateCategory = async (id: string, formData: FormData) => {
+export const updateCategory = async (id: string, data: { name: string; description: string }) => {
+  const formData = new FormData();
+  formData.append('name', data.name);
+  formData.append('description', data.description);
+  
   const res = await axios.put(`${API_URL}/${id}`, formData, {
     headers: {
       ...createAuthHeaders(),

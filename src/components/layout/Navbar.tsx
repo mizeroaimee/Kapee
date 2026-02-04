@@ -10,6 +10,7 @@ const Navbar = () => {
   
   const fallbackCategories = ["Women", "Men", "Shoes", "Watches", "Bags & Backpacks", "Jewellery", "Accessories"];
   const displayCategories = categories.length > 0 ? categories.map(cat => cat.name) : fallbackCategories;
+  const uniqueCategories = [...new Set(displayCategories)];
 
   return (
     <div className="bg-white border-b sticky top-0 z-40">
@@ -28,9 +29,9 @@ const Navbar = () => {
           {/* Department Dropdown */}
           {shopDropdownOpen && (
             <div className="absolute top-full left-0 bg-white border shadow-lg rounded-lg mt-1 py-2 min-w-48">
-              {displayCategories.map((category) => (
+              {uniqueCategories.map((category, index) => (
                 <Link
-                  key={category}
+                  key={`dept-${index}`}
                   to={`/category/${category}`}
                   className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-primary transition"
                   onClick={() => setShopDropdownOpen(false)}
@@ -66,9 +67,9 @@ const Navbar = () => {
               Shop <FiChevronDown size={12} className="hidden lg:block" />
             </div>
             <div className="absolute top-full left-0 bg-white border shadow-lg rounded-lg mt-1 py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-              {displayCategories.map((category) => (
+              {uniqueCategories.map((category, index) => (
                 <Link
-                  key={category}
+                  key={`shop-${index}`}
                   to={`/category/${category}`}
                   className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-primary transition"
                 >
@@ -139,9 +140,9 @@ const Navbar = () => {
             </Link>
             <div className="space-y-2">
               <div className="font-semibold text-gray-700">Categories:</div>
-              {displayCategories.map((category) => (
+              {uniqueCategories.map((category, index) => (
                 <Link
-                  key={category}
+                  key={`mobile-${index}`}
                   to={`/category/${category}`}
                   className="block cursor-pointer py-1 pl-4 hover:text-primary transition"
                   onClick={() => setMobileMenuOpen(false)}

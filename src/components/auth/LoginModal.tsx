@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FiX, FiEye, FiEyeOff } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { login, isLoading } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -119,9 +121,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 />
                 <span className="text-gray-700">Remember me</span>
               </label>
-              <a href="#" className="text-blue-600 hover:text-blue-700 font-semibold">
+              <button
+                type="button"
+                onClick={() => setShowForgotPassword(true)}
+                className="text-blue-600 hover:text-blue-700 font-semibold"
+              >
                 Lost your password?
-              </a>
+              </button>
             </div>
 
             {/* Login Button */}
@@ -149,6 +155,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
           </form>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      <ForgotPasswordModal
+        isOpen={showForgotPassword}
+        onClose={() => setShowForgotPassword(false)}
+        onBackToLogin={() => setShowForgotPassword(false)}
+      />
     </div>
   );
 };

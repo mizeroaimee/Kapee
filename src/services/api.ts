@@ -4,14 +4,17 @@ export interface Product {
   _id: string;
   name: string;
   price: number;
-  oldPrice?: number;
-  image: string;
-  hoverImage?: string;
-  rating: number;
-  reviews: number;
-  category: string;
-  discount?: string;
   description?: string;
+  category: {
+    _id: string;
+    name: string;
+  };
+  inStock: boolean;
+  quantity: number;
+  image?: string;
+  createdBy: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Category {
@@ -22,21 +25,26 @@ export interface Category {
 }
 
 export const api = {
-  async getProducts(category?: string, filters?: {
-    sortBy?: string;
-    priceRange?: number;
-    color?: string;
-    size?: string;
-  }): Promise<Product[]> {
+  async getProducts(search?: string): Promise<{ products: Product[] }> {
     const params = new URLSearchParams();
-    if (category && category !== 'all') params.append('category', category);
-    if (filters?.sortBy) params.append('sortBy', filters.sortBy);
-    if (filters?.priceRange) params.append('maxPrice', filters.priceRange.toString());
-    if (filters?.color) params.append('color', filters.color);
-    if (filters?.size) params.append('size', filters.size);
+    if (search) params.append('search', search);
 
-    const response = await fetch(`${API_BASE_URL}/products?${params}`);
+    const response = await fetch(`${API_BASE_URL}/products?${params}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
     if (!response.ok) throw new Error('Failed to fetch products');
+    return response.json();
+  },
+
+  async getProductById(id: string): Promise<Product> {
+    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if (!response.ok) throw new Error('Failed to fetch product');
     return response.json();
   },
 
@@ -44,6 +52,11 @@ export const api = {
     const response = await fetch(`${API_BASE_URL}/categories`);
     if (!response.ok) throw new Error('Failed to fetch categories');
     return response.json();
+  },
+
+  async getFeaturedProducts(): Promise<Product[]> {
+    const { products } = await this.getProducts();
+    return products.slice(0, 5); // Return first 5 products as featured
   },
 
   async getCategoryById(id: string): Promise<Category> {

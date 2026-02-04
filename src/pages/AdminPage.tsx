@@ -1,14 +1,17 @@
-import React from 'react';
-// CategoryManagement component removed — file not found
-// Add it back in src/components if you need admin category management.
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect to the new admin dashboard
+    navigate('/admin/dashboard');
+  }, [navigate]);
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Admin Dashboard</h1>
-        <p className="text-center text-gray-600">Category management is not available. Add `src/components/CategoryManagement.tsx` to enable it.</p>
-      </div>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
     </div>
   );
 };

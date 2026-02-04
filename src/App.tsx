@@ -9,6 +9,8 @@ import CategoryPage from "./pages/CategoryPage.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import About from "./pages/About.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
+import AdminDashboard from "./pages/AdminDashboard.tsx";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { CategoryProvider } from "./context/CategoryContext";
@@ -28,7 +30,16 @@ function App() {
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/about" element={<About />} />
-              <Route path="/admin" element={<AdminPage />} />
+              <Route path="/admin" element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/dashboard" element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } />
             </Routes>
             <Footer />
           </Router>
