@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FiX, FiEye, FiEyeOff } from "react-icons/fi";
-import * as authService from "../../services/authService";
 
 interface ResetPasswordModalProps {
   isOpen: boolean;

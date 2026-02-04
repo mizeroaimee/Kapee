@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FiX, FiArrowLeft } from "react-icons/fi";
-import * as authService from "../../services/authService";
 import ResetPasswordModal from "./ResetPasswordModal";
 
 interface ForgotPasswordModalProps {

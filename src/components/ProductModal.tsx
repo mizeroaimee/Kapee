@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiX, FiUpload } from 'react-icons/fi';
+import { FiX } from 'react-icons/fi';
 import { productService } from '../services/productService';
 
 interface ProductModalProps {
